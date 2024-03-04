@@ -1,17 +1,40 @@
-// Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
-// then press Enter. You can now see whitespace characters in your code.
+import businessobject.CEO;
+import businessobject.Customer;
+import gui.PrintGUI;
+import singelton.OrderService;
+
+import java.util.Scanner;
+
+/* Klass Main
+* Starta upp programmet med att skapa upp CEO, Customer och OrderService objekt.
+ */
 public class Main {
     public static void main(String[] args) {
-        // Press Opt+Enter with your caret at the highlighted text to see how
-        // IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+        Scanner scanner = new Scanner(System.in); // Ta emot användarens inmatningar
+        CEO ceo = new CEO();                      // VD objekt för att ta emot information om förändringar
+        PrintGUI.printStartLabel();               // Skriva ut en välkomsttext för användvaren.
 
-        // Press Ctrl+R or click the green arrow button in the gutter to run the code.
-        for (int i = 1; i <= 5; i++) {
+        // Grund för att skapa upp en kund
+        int step = 1;
+        String inName = "";
+        String inEmail = "";
+        String inAdress = "";
 
-            // Press Ctrl+D to start debugging your code. We have set one breakpoint
-            // for you, but you can always add more by pressing Cmd+F8.
-            System.out.println("i = " + i);
+        while(step < 4){ // Stegvis låta kunden mata in information
+            PrintGUI.createCustomerMenu(step);
+            if(step == 1){ // Namn
+                inName = scanner.nextLine();
+                step = 2;
+            }else if(step == 2){ // Email
+                inEmail = scanner.nextLine();
+                step = 3;
+            } else { // Adress
+                inAdress = scanner.nextLine();
+                step = 4;
+            }
         }
+
+        // Hämta en instans av Orderservice och köra metoden createOrder med en ny kund samt ett CEO objekt för att ta emot förändringar
+        OrderService.getInstance().createOrder(new Customer(inName, inEmail, inAdress), ceo);
     }
 }
